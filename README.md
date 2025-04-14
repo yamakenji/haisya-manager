@@ -27,6 +27,3 @@
 LINE通知やタイムツリー連携を視野に入れる
 親と子供は一緒に乗れないなど、ユーザーから制約の要望を随時機能追加していく
 ユーザー要望機能
-
-## ユースケース図
-https://www.mermaidchart.com/app/projects/e2d64320-79dc-4146-8e8b-37296b3f72ec/diagrams/d788db5f-a7aa-4ee6-a015-a2730f42075f/version/v0.1/edit
