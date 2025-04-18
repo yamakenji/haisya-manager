@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="~{fragment :: meta}"></div>
+    <div th:replace="~{fragment :: styles}"></div>
+    <title>メンバー詳細</title>
+</head>
+<body>
+    <div class="haisya-wrapper show-page">
+        <div class="haisya-container">
+                <h1>メンバー詳細</h1>
+
+                <!-- 名前 -->
+                <div>
+                    <label>名前</label>
+                    <input type="text" th:field="*{name}" placeholder="名前" readonly>
+                </div>
+
+                <!-- 子供の名前1 -->
+                <div>
+                    <label>子供の名前1</label>
+                    <input type="text" th:field="*{childName1}" placeholder="子供の名前1" readonly>
+                </div>
+
+                <!-- 子供の名前2 -->
+                <div>
+                    <label>子供の名前2</label>
+                    <input type="text" th:field="*{childName2}" placeholder="子供の名前2" readonly>
+                </div>
+
+                <!-- 子供の名前3 -->
+                <div>
+                    <label>子供の名前3</label>
+                    <input type="text" th:field="*{childName3}" placeholder="子供の名前3" readonly>
+                </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragment :: scripts}"></div>
+</body>
+</html>

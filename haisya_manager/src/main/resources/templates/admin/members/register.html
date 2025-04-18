@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="~{fragment :: meta}"></div>
+    <div th:replace="~{fragment :: styles}"></div>
+    <title>メンバー登録</title>
+</head>
+<body>
+    <div class="haisya-wrapper register-page">
+        <div class="haisya-container">
+            <form action="@{/admin/members/register}" method="post" th:object="${memberForm}" class="register-form">
+                <h1>新規メンバー登録</h1>
+
+                <!-- 名前 -->
+                <div>
+                    <label>名前<span class="required">必須</span></label>
+                    <input type="text" th:field="*{name}" placeholder="名前">
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                </div>
+
+                <!-- 子供の名前1 -->
+                <div>
+                    <label>子供の名前1<span class="required">必須</span></label>
+                    <input type="text" th:field="*{childName1}" placeholder="子供の名前1">
+                    <div th:if="${#fields.hasErrors('childName1')}" th:errors="*{childName1}"></div>
+                </div>
+
+                <!-- 子供の名前2 -->
+                <div>
+                    <label>子供の名前2<span class="required">必須</span></label>
+                    <input type="text" th:field="*{childName2}" placeholder="子供の名前2">
+                    <div th:if="${#fields.hasErrors('childName2')}" th:errors="*{childName2}"></div>
+                </div>
+
+                <!-- 子供の名前3 -->
+                <div>
+                    <label>子供の名前3<span class="required">必須</span></label>
+                    <input type="text" th:field="*{childName3}" placeholder="子供の名前3">
+                    <div th:if="${#fields.hasErrors('childName3')}" th:errors="*{childName3}"></div>
+                </div>
+
+                <button type="submit">登録</button>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="~{fragment :: scripts}"></div>
+</body>
+</html>
