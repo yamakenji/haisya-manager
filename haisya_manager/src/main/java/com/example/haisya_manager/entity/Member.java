@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "member")
+@Table(name = "members")
 @Data
 public class Member {
 	@Id
@@ -22,9 +22,6 @@ public class Member {
 	
 	@Column(name = "name")
 	private String name;
-	
-	@Column(name = "child_name")
-	private String childName;
 	
 	@Column(name = "created_at", insertable = false, updatable = false)
 	private Timestamp createdAt;
