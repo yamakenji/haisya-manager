@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="~{fragment :: meta}"></div>
+    <div th:replace="~{fragment :: styles}"></div>
+    <title>配車係ログイン</title>
+</head>
+<body>
+    <div class="haisya-wrapper register-page">
+        <div class="haisya-container">
+            <form action="@{/register}" method="post" th:object="${registerForm}" class="register-form">
+                <h1>新規チーム登録</h1>
+
+                <!-- ユーザー名 -->
+                <div>
+                    <label>ユーザー名（チームID）<span class="required">必須</span></label>
+                    <input type="text" th:field="*{username}" placeholder="ユーザー名（チームID）">
+                    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                </div>
+
+                <!-- パスワード -->
+                <div>
+                    <label>パスワード<span class="required">必須</span></label>
+                    <input type="password" th:field="*{password}" placeholder="パスワード">
+                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                </div>
+
+                <!-- パスワード確認 -->
+                <div>
+                    <label>パスワード確認<span class="required">必須</span></label>
+                    <input type="password" th:field="*{passwordConfirmation}" placeholder="パスワード確認">
+                    <div th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}"></div>
+                </div>
+
+                <button type="submit">登録</button>
+            </form>
+        </div>
+    </div>
+
+    <div th:replace="~{fragment :: scripts}"></div>
+</body>
+</html>
