@@ -12,4 +12,9 @@ public class AdminController {
 		return "admin/login";
 	}
 	
+	@GetMapping("/top")
+	public String top() {
+		return "admin/top";
+	}
+	
 }

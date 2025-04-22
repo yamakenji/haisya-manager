@@ -23,8 +23,14 @@ public class Admin {
 	 @Column(name = "username")
 	 private String userName;
 	 
+	 @Column(name = "password")
+	 private String password;
+	 
 	 @Column(name = "role")
 	 private String role;
+	 
+	 @Column(name = "enabled")
+	 private Boolean enabled;
 	 
 	 @Column(name = "created_at", insertable = false, updatable = false)
 	 private Timestamp createdAt;
