@@ -17,15 +17,15 @@ public class WebSecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/css/**", "/js/**", "/", "/admin/login").permitAll()
-				.requestMatchers("/admin/top").hasRole("ADMIN")
+				.requestMatchers("/css/**", "/js/**", "/", "/login").permitAll()
+				.requestMatchers("/admin/**").hasRole("ADMIN")
 				.anyRequest().authenticated()
 			)
 			.formLogin((form) -> form
-				.loginPage("/admin/login")			// ログイン画面
-				.loginProcessingUrl("/admin/login")	// 認証処理を受付させる
-				.defaultSuccessUrl("/admin/top", true)	// 認証成功後は配車係のトップ画面に
-				.failureUrl("/admin/login?error")
+				.loginPage("/login")					// ログイン画面
+				.loginProcessingUrl("/login")			// 認証処理を受付させる
+				.defaultSuccessUrl("/admin/top")	// 認証成功後は配車係のトップ画面に
+				.failureUrl("/login?error")
 				.permitAll()
 			)
 			.logout((logout) -> logout
