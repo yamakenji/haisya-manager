@@ -11,10 +11,13 @@
             <h1>配車管理</h1>
 
                 <ul>
-                    <li><a th:href="@{/login}">配車係ログイン</a></li>
-                    <li><a th:href="@{/member/rides/index}">メンバー配車一覧</a></li>
+                    <li class="mb-2"><a th:href="@{/login}">ログイン</a></li>
                     <li><a th:href="@{/register}">新規チーム登録</a></li>
                 </ul>
+
+                <div th:if="${successMessage}" class="alert alert-info">
+                    <span th:text="${successMessage}"></span>
+                </div>
             </div>
         </div>
     </div>

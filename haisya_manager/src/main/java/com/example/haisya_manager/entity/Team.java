@@ -8,15 +8,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import lombok.Data;
 
 @Entity
-@Table(name = "members")
+@Table(name = "teams")
 @Data
-public class Member {
+public class Team {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -25,9 +25,9 @@ public class Member {
 	@Column(name = "name")
 	private String name;
 	
-	@ManyToOne
-	@JoinColumn(name = "team_id")
-	private Team team;
+	@OneToOne
+	@JoinColumn(name = "admin_id")
+	private Admin admin;
 	 
 	@Column(name = "created_at", insertable = false, updatable = false)
 	private Timestamp createdAt;

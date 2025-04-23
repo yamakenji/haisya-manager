@@ -22,9 +22,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 	
 	@Override
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		try {
-			Admin admin = adminRepository.findByUserName(userName);
+			Admin admin = adminRepository.findByUsername(username);
 			String adminRoleName = admin.getRole();
 			Collection<GrantedAuthority> authorities = new ArrayList<>();
 			authorities.add(new SimpleGrantedAuthority(adminRoleName));

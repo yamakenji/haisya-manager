@@ -7,32 +7,77 @@
 </head>
 <body>
     <div class="haisya-wrapper register-page">
-        <div class="haisya-container">
-            <form action="@{/register}" method="post" th:object="${registerForm}" class="register-form">
+        <div class="haisya-container register-container">
+            <form th:action="@{/register}" method="post" th:object="${registerForm}" class="register-form">
                 <h1>新規チーム登録</h1>
 
                 <!-- ユーザー名 -->
-                <div>
-                    <label>ユーザー名（チームID）<span class="required">必須</span></label>
-                    <input type="text" th:field="*{username}" placeholder="ユーザー名（チームID）">
-                    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                <div class="form-group row mb-3">
+                    <div class="col-md-5">
+                        <label class="col-form-label text-md-left fw-bold">
+                            <div class="d-flex align-items-center">
+                                <span>ユーザー名</span>
+                                <span class="badge bg-danger">必須</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" th:field="*{username}" placeholder="ユーザー名">
+                        <div th:if="${#fields.hasErrors('username')}" class="form-error text-danger small mb-2" th:errors="*{username}"></div>
+                    </div>
+                </div>
+
+                <!-- チーム名 -->
+                <div class="form-group row mb-3">
+                    <div class="col-md-5">
+                        <label class="col-form-label text-md-left fw-bold">
+                            <div class="d-flex align-items-center">
+                                <span>チーム名</span>
+                                <span class="badge bg-danger">必須</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" th:field="*{teamName}" placeholder="チーム名">
+                        <div th:if="${#fields.hasErrors('teamName')}" class="form-error text-danger small mb-2" th:errors="*{teamName}"></div>
+                    </div>
                 </div>
 
                 <!-- パスワード -->
-                <div>
-                    <label>パスワード<span class="required">必須</span></label>
-                    <input type="password" th:field="*{password}" placeholder="パスワード">
-                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                <div class="form-group row mb-3">
+                    <div class="col-md-5">
+                        <label class="col-form-label text-md-left fw-bold">
+                            <div class="d-flex align-items-center">
+                                <span>パスワード</span>
+                                <span class="badge bg-danger">必須</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="password" th:field="*{password}">
+                        <div th:if="${#fields.hasErrors('password')}" class="form-error text-danger small mb-2" th:errors="*{password}"></div>
+                    </div>
                 </div>
 
                 <!-- パスワード確認 -->
-                <div>
-                    <label>パスワード確認<span class="required">必須</span></label>
-                    <input type="password" th:field="*{passwordConfirmation}" placeholder="パスワード確認">
-                    <div th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}"></div>
+                <div class="form-group row mb-3">
+                    <div class="col-md-5">
+                        <label class="col-form-label text-md-left fw-bold">
+                            <div class="d-flex align-items-center">
+                                <span>パスワード確認</span>
+                                <span class="badge bg-danger">必須</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="password" th:field="*{passwordConfirmation}">
+                        <div th:if="${#fields.hasErrors('passwordConfirmation')}" class="form-error text-danger small mb-2" th:errors="*{passwordConfirmation}"></div>
+                    </div>
                 </div>
 
-                <button type="submit">登録</button>
+                <div class="d-flex justify-content-center my-4">
+                    <button type="submit" class="haisya-btn">登録</button>
+                </div>
             </form>
         </div>
     </div>

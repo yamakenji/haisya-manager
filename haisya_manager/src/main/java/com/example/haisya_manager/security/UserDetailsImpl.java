@@ -29,7 +29,7 @@ public class UserDetailsImpl implements UserDetails {
     // ログイン時に利用するユーザー名を返す
     @Override
     public String getUsername() {
-        return admin.getUserName();
+        return admin.getUsername();
     }
 
     // ロールのコレクションを返す

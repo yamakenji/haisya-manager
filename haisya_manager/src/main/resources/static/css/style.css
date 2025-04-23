@@ -63,8 +63,20 @@ button {
   font-size: 0.8rem;
 }
 
+.form-group label span {
+  white-space: nowrap;
+}
+
+.form-error {
+  white-space: nowrap;
+}
+
+.form-group .badge {
+  margin-left: 0.5rem;
+}
+
 @media screen and (min-width: 1400px) {
- .haisya-container {
-   max-width: 1200px;
- }
+  .haisya-container {
+  max-width: 1200px;
+  }
 }
