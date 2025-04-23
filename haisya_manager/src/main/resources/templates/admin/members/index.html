@@ -6,8 +6,9 @@
     <title>メンバー一覧</title>
 </head>
 <body>
-    <div class="haisya-wrapper">
+    <div class="haisya-wrapper admin-members-index-wrapper">
       <main>
+        <div th:replace="~{fragment :: header}"></div>
         <!-- 削除用モーダル -->
         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -26,7 +27,7 @@
           </div>
         </div>
 
-        <div class="haisya-container">
+        <div class="haisya-container admin-members-index-container">
           <nav class="haisya-nav">
             <ul>
               <li class="haisya-nav-item active" aria-current="page">メンバー一覧</li>

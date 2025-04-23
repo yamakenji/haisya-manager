@@ -40,6 +40,7 @@ button {
 
 .haisya-container {
 	max-width: 400px;
+  margin-top: 30px;
 }
 
 .haisya-btn {
@@ -49,6 +50,17 @@ button {
 
 .haisya-btn:hover {
 	opacity: 0.8;
+}
+
+.navbar-brand {
+  font-size: 1rem;
+  text-align: left;
+}
+
+.haisya-logout-button {
+  text-align: right;
+  background-color: #cce9eb;
+  font-size: 0.8rem;
 }
 
 @media screen and (min-width: 1400px) {

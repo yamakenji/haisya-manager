@@ -6,9 +6,10 @@
   <title>配車詳細</title>
 </head>
 <body>
-  <div class="haisya-wrapper">
+  <div class="haisya-wrapper member-rides-show-wrapper">
+    <div th:replace="~{fragment :: header}"></div>
     <main>
-      <div class="haisya-container">
+      <div class="haisya-container member-rides-show-container">
         <nav class="haisya-nav">
           <ul>
             <li class="haisya-nav-item"><a th:href="@{/member/rides}">配車一覧</a></li>

@@ -6,8 +6,9 @@
     <title>配車エントリー</title>
 </head>
 <body>
-    <div class="haisya-wrapper entry-page">
-        <div class="haisya-container">
+    <div class="haisya-wrapper member-rides-entry-wrapper">
+        <div th:replace="~{fragment :: header}"></div>
+        <div class="haisya-container member-rides-entry-container">
             <h2 th:text="${ride.date} + ' の配車予定'"></h2>
             <p th:text="'行き先: ' + ${ride.destination}"></p>
 

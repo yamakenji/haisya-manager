@@ -6,7 +6,8 @@
     <title>配車一覧(配車係)</title>
 </head>
 <body>
-    <div class="haisya-wrapper">
+    <div class="haisya-wrapper admin-rides-index-wrapper">
+      <div th:replace="~{fragment :: header}"></div>
       <main>
         <!-- 削除用モーダル -->
         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -26,7 +27,7 @@
           </div>
         </div>
 
-        <div class="haisya-container">
+        <div class="haisya-container admin-rides-index-container">
           <nav class="haisya-nav">
             <ul>
               <li class="haisya-nav-item active" aria-current="page">配車一覧</li>

@@ -6,8 +6,9 @@
     <title>メンバー登録</title>
 </head>
 <body>
-    <div class="haisya-wrapper register-page">
-        <div class="haisya-container">
+    <div class="haisya-wrapper admin-members-register-wrapper">
+        <div th:replace="~{fragment :: header}"></div>
+        <div class="haisya-container admin-members-register-container">
             <form action="@{/admin/members/register}" method="post" th:object="${memberForm}" class="register-form">
                 <h1>新規メンバー登録</h1>
 

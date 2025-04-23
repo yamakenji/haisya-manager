@@ -6,8 +6,9 @@
     <title>メンバー編集</title>
 </head>
 <body>
-    <div class="haisya-wrapper edit-page">
-        <div class="haisya-container">
+    <div class="haisya-wrapper admin-members-edit-wrapper">
+        <div th:replace="~{fragment :: header}"></div>
+        <div class="haisya-container admin-members-edit-container">
             <form action="@{/admin/members/edit}" method="post" th:object="${memberForm}" class="edit-form">
                 <h1>メンバー編集</h1>
 

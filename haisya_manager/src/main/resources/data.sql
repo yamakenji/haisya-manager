@@ -1,35 +1,30 @@
--- 管理者ユーザー
-INSERT INTO admin (username, password, role, enabled)
-SELECT 'haisya', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 'ROLE_ADMIN', true
-WHERE NOT EXISTS (SELECT 1 FROM admin WHERE username = 'haisya');
+/* adminsテーブル */
+INSERT IGNORE INTO admins (id, username, password, role, enabled) VALUES
+(1, 'haisya', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 'ROLE_ADMIN', true);
 
--- メンバー（保護者）
-INSERT INTO members (name)
-SELECT '佐藤花子' WHERE NOT EXISTS (SELECT 1 FROM members WHERE name = '佐藤花子');
+/* teams テーブル */
+INSERT IGNORE INTO teams (id, name, admin_id) VALUES
+(1, 'ドルフィンズ', 1);
 
-INSERT INTO members (name)
-SELECT '鈴木美子' WHERE NOT EXISTS (SELECT 1 FROM members WHERE name = '鈴木美子');
+/* members テーブル */
+INSERT IGNORE INTO members (id, name, team_id) VALUES
+(1, '鈴木 花子', 1),
+(2, '佐藤 美子', 1);
 
--- 子ども
-INSERT INTO children (name, member_id)
-SELECT '佐藤一郎', 1 WHERE NOT EXISTS (SELECT 1 FROM children WHERE name = '佐藤一郎' AND member_id = 1);
+/* children テーブル */
+INSERT IGNORE INTO children (id, name, member_id) VALUES
+(1, '鈴木 一郎', 1),
+(2, '鈴木 次郎', 1),
+(3, '佐藤 太郎', 2);
 
-INSERT INTO children (name, member_id)
-SELECT '佐藤次郎', 1 WHERE NOT EXISTS (SELECT 1 FROM children WHERE name = '佐藤次郎' AND member_id = 1);
+/* rides テーブル */
+INSERT IGNORE INTO rides (id, date, destination, memo, created_by_id) VALUES
+(1, '2025-05-17', '日大グラウンド', '公式戦', 1),
+(2, '2025-05-18', '高瀬グラウンド', '練習試合', 1);
 
-INSERT INTO children (name, member_id)
-SELECT '鈴木太郎', 2 WHERE NOT EXISTS (SELECT 1 FROM children WHERE name = '鈴木太郎' AND member_id = 2);
-
--- 配車イベント（乗り合いの予定）
-INSERT INTO rides (date, destination, memo, created_by_id)
-SELECT '2025-04-30', '日大グラウンド', '公式戦', 1
-WHERE NOT EXISTS (SELECT 1 FROM rides WHERE date = '2025-04-30' AND destination = '日大グラウンド');
-
--- 配車エントリー
-INSERT INTO ride_entry (ride_id, member_id, can_drive)
-SELECT 1, 1, true
-WHERE NOT EXISTS (SELECT 1 FROM ride_entry WHERE ride_id = 1 AND member_id = 1);
-
-INSERT INTO ride_entry (ride_id, member_id, can_drive)
-SELECT 1, 2, false
-WHERE NOT EXISTS (SELECT 1 FROM ride_entry WHERE ride_id = 1 AND member_id = 2);
+/* ride_entry テーブル */
+INSERT IGNORE INTO ride_entry (id, ride_id, member_id, can_drive) VALUES
+(1, 1, 1, true),
+(2, 1, 2, false),
+(3, 2, 1, false),
+(4, 2, 2, true);
