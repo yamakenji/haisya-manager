@@ -15,8 +15,12 @@
                     <li><a th:href="@{/register}">新規チーム登録</a></li>
                 </ul>
 
-                <div th:if="${successMessage}" class="alert alert-info">
+                <div th:if="${successMessage}" class="alert alert-info py-2">
                     <span th:text="${successMessage}"></span>
+                </div>
+
+                <div th:if="${param.loggedOut}" class="alert alert-info py-2">
+                    ログアウトしました。
                 </div>
             </div>
         </div>
