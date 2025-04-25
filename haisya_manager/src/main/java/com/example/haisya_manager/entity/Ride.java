@@ -1,7 +1,9 @@
 package com.example.haisya_manager.entity;
 
-import java.security.Timestamp;
-import java.sql.Date;
+
+
+import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +26,7 @@ public class Ride {
 	private Integer id;
 
 	@Column(name = "date")
-	private Date date;
+	private LocalDate date;
 	
 	@Column(name = "destination")
 	private String destination;
@@ -33,7 +35,7 @@ public class Ride {
 	private String memo;
 	
 	@ManyToOne
-	@JoinColumn(name = "created_by_id")
+	@JoinColumn(name = "admin_id")
 	private Admin admin;
 	 
 	@Column(name = "created_at", insertable = false, updatable = false)

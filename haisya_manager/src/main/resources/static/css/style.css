@@ -45,6 +45,7 @@ button {
 
 .haisya-btn {
 	background-color: #5196a6;
+  color: white;
 	transition: 0.1s;
 }
 
@@ -73,6 +74,10 @@ button {
 
 .form-group .badge {
   margin-left: 0.5rem;
+}
+
+.small-button {
+  font-size: 0.8rem;
 }
 
 @media screen and (min-width: 1400px) {

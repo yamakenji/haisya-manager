@@ -26,6 +26,10 @@ public class Member {
 	private String name;
 	
 	@ManyToOne
+	@JoinColumn(name = "admin_id")
+	private Admin admin;
+	
+	@ManyToOne
 	@JoinColumn(name = "team_id")
 	private Team team;
 	 

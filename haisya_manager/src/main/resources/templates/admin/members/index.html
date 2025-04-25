@@ -28,11 +28,12 @@
         </div>
 
         <div class="haisya-container admin-members-index-container">
-          <nav class="haisya-nav">
-            <ul>
-              <li class="haisya-nav-item active" aria-current="page">メンバー一覧</li>
-              <li class="haisya-nav-item"><a th:href="@{/admin/members/register}">メンバー登録</a></li>
-            </ul>
+          <nav class="my-2 pb-3" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item"><a th:href="@{/admin/top}">TOP</a></li>
+              <li class="breadcrumb-item active" aria-current="page">メンバー一覧</li>
+              <li class="breadcrumb-item"><a th:href="@{/admin/members/register}">メンバー登録</a></li>
+            </ol>
           </nav>
           
           <h1>メンバー一覧</h1>

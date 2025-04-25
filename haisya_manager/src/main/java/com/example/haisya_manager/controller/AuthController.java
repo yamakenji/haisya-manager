@@ -34,7 +34,7 @@ public class AuthController {
 		return "register";
 	}
 	
-	// チーム登録
+	// チーム登録をする
 	@PostMapping("/register")
 	public String register(@ModelAttribute @Validated RegisterForm registerForm,
 						   BindingResult bindingResult,
@@ -46,7 +46,6 @@ public class AuthController {
 			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "username", "すでに登録済みのユーザーです。");
 			bindingResult.addError(fieldError);
 		}
-		
 		// パスワードとパスワード（確認用）の入力が一致しなければ、BindingResultオブジェクトにエラー内容を追加する
 		if (!adminService.isSamePassword(registerForm.getPassword(), registerForm.getPasswordConfirmation())) {
 			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "password", "パスワードが一致しません。");
@@ -56,7 +55,6 @@ public class AuthController {
 		if (bindingResult.hasErrors()) {
 			return "register";
 		}
-		
 		adminService.createAdminAndTeam(registerForm);
 		redirectAttributes.addFlashAttribute("successMessage", "チーム登録が完了しました。");
 		return  "redirect:/";

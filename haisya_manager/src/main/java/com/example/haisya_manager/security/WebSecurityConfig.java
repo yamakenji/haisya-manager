@@ -22,8 +22,8 @@ public class WebSecurityConfig {
 				.anyRequest().authenticated()
 			)
 			.formLogin((form) -> form
-				.loginPage("/login")					// ログイン画面
-				.loginProcessingUrl("/login")			// 認証処理を受付させる
+				.loginPage("/login")						// ログイン画面
+				.loginProcessingUrl("/login")				// 認証処理を受付させる
 				.defaultSuccessUrl("/admin/top?loggedIn")	// 認証成功後は配車係のトップ画面に
 				.failureUrl("/login?error")
 				.permitAll()

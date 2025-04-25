@@ -9,7 +9,14 @@
     <div class="haisya-wrapper admin-members-show-wrapper">
         <div th:replace="~{fragment :: header}"></div>
         <div class="haisya-container admin-members-show-container">
-                <h1>メンバー詳細</h1>
+            <nav class="my-2 pb-3" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a th:href="@{/admin/top}">TOP</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/admin/members}">メンバー一覧</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">メンバー詳細</li>
+                </ol>
+            </nav>
+            <h1>メンバー詳細</h1>
 
                 <!-- 名前 -->
                 <div>

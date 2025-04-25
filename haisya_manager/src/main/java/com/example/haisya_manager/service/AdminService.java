@@ -27,12 +27,10 @@ public class AdminService {
 	public Team createAdminAndTeam(RegisterForm registerForm) {
 		// ユーザーを先に保存
 		Admin admin = new Admin();
-		
 		admin.setUsername(registerForm.getUsername());
 		admin.setPassword(passwordEncoder.encode(registerForm.getPassword()));
 		admin.setRole("ROLE_ADMIN");
 		admin.setEnabled(true);
-		
 		admin = adminRepository.save(admin);
 		
 		// チームを保存

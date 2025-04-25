@@ -28,14 +28,25 @@
         </div>
 
         <div class="haisya-container admin-rides-index-container">
-          <nav class="haisya-nav">
-            <ul>
-              <li class="haisya-nav-item active" aria-current="page">配車一覧</li>
-              <li class="haisya-nav-item"><a th:href="@{/admin/rides/register}">配車登録</a></li>
-            </ul>
+          <nav class="my-2 pb-3" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item"><a th:href="@{/admin/top}">TOP</a></li>
+              <li class="breadcrumb-item active" aria-current="page">配車一覧</li>
+              <li class="breadcrumb-item"><a th:href="@{/admin/rides/register}">配車登録</a></li>
+            </ol>
           </nav>
+          <form method="get" th:action="@{/admin/rides}" class="mb-3 px-1">
+            <div class="input-group">
+              <input type="date" name="date" class="form-control mx-0" placeholder="日付" th:value="${date}">
+              <button type="submit" class="btn btn-primary small-button py-0 px-3 mb-2">検索</button>
+            </div>
+          </form>
           
           <h1>配車一覧</h1>
+
+          <div th:if="${errorMessage}" class="alert alert-danger py-1">
+            <span th:text="${errorMessage}"></span>
+          </div>
 
           <table class="haisya-table" >
             <thead>
@@ -44,11 +55,11 @@
             <tbody>
               <tr th:each="ride : ${ridePage}">
                 <td>
-                  <a th:href="@{/rides/__${ride.id}__}" th:text="${ride.date}"></a>
+                  <a th:href="@{/admin/rides/__${ride.id}__}" th:text="${ride.date}"></a>
                 </td>
                 <td>
-                  <a th:href="@{/admin/rides/{id}(id=${ride.id})/edit}" class="btn btn-primary">編集</a>
-                  <a href="#" class="btn btn-danger" th:attr="data-bs-toggle='modal', data-bs-target='#deleteModal', data-action='/admin/rides/' + ${ride.id}">削除</a>
+                  <a th:href="@{/admin/rides/__${ride.id}__/edit}" class="btn btn-primary my-1  mx-3 py-1 small-button">編集</a>
+                  <a th:href="@{/admin/rides/__${ride.id}__/delete}" class="btn btn-danger my-1 py-1 small-button" th:attr="data-bs-toggle='modal', data-bs-target='#deleteModal', data-action='/admin/rides/' + ${ride.id}">削除</a>
                 </td>
               </tr>
             </tbody>
