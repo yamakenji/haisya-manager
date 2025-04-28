@@ -80,6 +80,46 @@ button {
   font-size: 0.8rem;
 }
 
+.haisya-show-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.haisya-show-table th,
+.haisya-show-table td {
+  padding: 10px 15px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+/* 車両表示用のスタイル */
+.car-card {
+  margin-bottom: 1rem;
+  min-width: 150px;
+  max-width: 250px;
+  margin-right: 1rem;
+}
+
+.car-header {
+  background-color: #f8f9fa;
+  padding: 0.5rem;
+  font-weight: bold;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.car-body {
+  padding: 0.5rem;
+}
+
+.cars-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.car-child {
+  margin-bottom: 0.25rem;
+}
+
 @media screen and (min-width: 1400px) {
   .haisya-container {
   max-width: 1200px;

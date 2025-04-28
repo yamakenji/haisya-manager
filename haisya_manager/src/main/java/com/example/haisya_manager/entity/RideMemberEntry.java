@@ -1,7 +1,6 @@
 package com.example.haisya_manager.entity;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,31 +14,26 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "rides")
+@Table(name = "ride_member_entry")
 @Data
-public class Ride {
+public class RideMemberEntry {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
-
-	@Column(name = "date")
-	private LocalDate date;
-	
-	@Column(name = "destination")
-	private String destination;
-	
-	@Column(name = "memo")
-	private String memo;
 	
 	@ManyToOne
-	@JoinColumn(name = "admin_id")
-	private Admin admin;
-	 
+	@JoinColumn(name = "ride_id")
+	private Ride ride;
+	
+	@ManyToOne
+	@JoinColumn(name = "member_id")
+	private Member member;
+	
 	@Column(name = "created_at", insertable = false, updatable = false)
 	private Timestamp createdAt;
 	 
 	@Column(name = "updated_at", insertable = false, updatable = false)
 	private Timestamp updatedAt;
-	
+
 }
