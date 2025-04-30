@@ -14,46 +14,62 @@
           <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a th:href="@{/admin/top}">TOP</a></li>
             <li class="breadcrumb-item"><a th:href="@{/admin/rides}">配車一覧</a></li>
+            <li class="breadcrumb-item"><a th:href="@{/admin/rides/__${ride.id}__}">配車詳細</a></li>
             <li class="breadcrumb-item active" aria-current="page">配車編集</li>
           </ol>
         </nav>
         <h1>配車編集</h1>
 
-        <form th:action="@{/admin/rides/update}" th:object="${rideForm}" method="post">
+        <form th:action="@{/admin/rides/__${ride.id}__/update}" th:object="${rideEditForm}" method="post">
           <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
 
-          <!-- 日付 -->
+          <!-- TODO 登録している日付を表示する方法 -->
           <div class="mb-3">
             <label for="date">日付</label>
-            <input type="date" th:field="*{date}" class="form-control" />
+            <div th:if="${#fields.hasErrors('date')}" class="text-danger small mb-2" th:errors="*{date}"></div>
+            <div class="row justify-content-center">
+              <div class="col-md-4">
+                <input type="text" class="form-control" th:field="*{date}" th:value="${ride.date}" id="date" />
+              </div>
+            </div>
           </div>
 
-          <!-- 配車台数分（5台） -->
-          <div class="d-flex flex-wrap justify-content-between">
-            <div th:each="i : ${#numbers.sequence(0, 4)}" class="card p-3 m-2" style="width: 18rem;">
-              <h5 th:text="'配車 ' + (i + 1) + ' 台目'"></h5>
-
-              <!-- 配車号 -->
-              <div class="mb-3">
-                <label th:for="'driver' + ${i}" class="form-label">配車号</label>
-                <select th:id="'driver' + ${i}" th:field="*{drivers[__${i}__]}" class="form-select" required>
-                  <option value="">-- 選択 --</option>
-                  <option th:each="member : ${members}" th:value="${member.id}" th:text="${member.name}"></option>
+          <!-- 配車号 -->
+          <div class="mb-3">
+            <label>配車号</label>
+            <div class="row justify-content-between">
+              <div th:each="i : ${#numbers.sequence(1, 5)}" class="col-md-2 mb-2">
+                <select th:name="'member' + ${i}" th:id="'car-select-' + ${i}" class="form-select">
+                  <option value="" th:selected="${rideMemberEntries == null || rideMemberEntries.size() < i || rideMemberEntries[i-1] == null}">--未設定--</option>
+                  <option th:each="memberCanEntry : ${rideMemberCanEntries}" 
+                          th:value="${memberCanEntry.member.name}"
+                          th:text="${memberCanEntry.member.name}"
+                          th:selected="${rideMemberEntries != null && rideMemberEntries.size() >= i && rideMemberEntries[i-1] != null && memberCanEntry.member.name == rideMemberEntries[i-1].member.name}">
+                  </option>
                 </select>
               </div>
+            </div>
+          </div>
 
-              <!-- 子供の名前 -->
-              <div class="mb-3">
-                <label th:for="'children' + ${i}" class="form-label">乗車メンバー</label>
-                <select multiple th:id="'children' + ${i}" th:field="*{children[__${i}__]}" class="form-select">
-                  <option th:each="child : ${children}" th:value="${child.id}" th:text="${child.name}"></option>
-                </select>
+
+          <!-- 行き先 -->
+          <div class="mb-3">
+            <label for="destination">行き先</label>
+            <div th:if="${#fields.hasErrors('destination')}" class="text-danger small mb-2" th:errors="*{destination}"></div>
+            <div class="row justify-content-center">
+              <div class="col-md-4">
+                <input type="text" class="form-control" th:field="*{destination}" id="destination" />
               </div>
+            </div>
+          </div>
 
-              <!-- 備考欄 -->
-              <div class="mb-3">
-                <label th:for="'memo' + ${i}" class="form-label">備考</label>
-                <input type="text" th:id="'memo' + ${i}" th:field="*{memos[__${i}__]}" class="form-control">
+          <!-- memo -->
+          <div class="mb-3">
+            <label for="memo">memo</label>
+            <div th:if="${#fields.hasErrors('memo')}" class="text-danger small mb-2" th:errors="*{memo}"></div>
+            <div class="row justify-content-center">
+              <div class="col-md-4">
+                <input type="text" class="form-control" th:field="*{memo}" id="memo" />
               </div>
             </div>
           </div>

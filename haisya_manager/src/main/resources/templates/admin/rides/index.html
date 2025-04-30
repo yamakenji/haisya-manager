@@ -44,6 +44,10 @@
           
           <h1>配車一覧</h1>
 
+          <div th:if="${successMessage}" class="alert alert-info py-1">
+            <span th:text="${successMessage}"></span>
+          </div>
+
           <div th:if="${errorMessage}" class="alert alert-danger py-1">
             <span th:text="${errorMessage}"></span>
           </div>

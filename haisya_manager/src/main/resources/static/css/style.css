@@ -120,8 +120,13 @@ button {
   margin-bottom: 0.25rem;
 }
 
+.form-select {
+  min-width: 120px;
+  width: 100%;
+}
+
 @media screen and (min-width: 1400px) {
   .haisya-container {
-  max-width: 1200px;
+    max-width: 1200px;
   }
 }
