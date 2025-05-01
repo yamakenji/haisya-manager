@@ -53,27 +53,25 @@
           </table>
 
           <!-- ページネーション -->
-          <div th:if="${ridePage.getTotalPages() > 1}" class="d-flex justify-content-center">
+          <div th:if="${ridePage.getTotalPages() > 1}" class="d-flex justify-content-center mt-3">
             <nav aria-label="配車一覧ページ">
                 <ul class="pagination">
                     <li class="page-item">
                         <span th:if="${ridePage.isFirst()}" class="page-link disabled">‹</span>
-                        <a th:unless="${ridePage.isFirst()}" th:href="@{/rides(page = ${ridePage.getNumber() - 1})}" class="page-link nagoyameshi-page-link">‹</a>
+                        <a th:unless="${ridePage.isFirst()}" th:href="@{/admin/rides(page = ${ridePage.getNumber() - 1})}" class="page-link haisya-page-link">‹</a>
                     </li>
                     <li th:each="i : ${#numbers.sequence(0, ridePage.getTotalPages() - 1)}" class="page-item">
-                        <span th:if="${i == ridePage.getNumber()}" class="page-link active nagoyameshi-active" th:text="${i + 1}"></span>
-                        <a th:unless="${i == ridePage.getNumber()}" th:href="@{/rides(page = ${i})}" class="page-link nagoyameshi-page-link" th:text="${i + 1}"></a>
+                        <span th:if="${i == ridePage.getNumber()}" class="page-link active haisya-active" th:text="${i + 1}"></span>
+                        <a th:unless="${i == ridePage.getNumber()}" th:href="@{/admin/rides(page = ${i})}" class="page-link haisya-page-link" th:text="${i + 1}"></a>
                     </li>
                     <li class="page-item">
                         <span th:if="${ridePage.isLast()}" class="page-link disabled">›</span>
-                        <a th:unless="${ridePage.isLast()}" th:href="@{/rides(page = ${ridePage.getNumber() + 1})}" class="page-link nagoyameshi-page-link">›</a>
+                        <a th:unless="${ridePage.isLast()}" th:href="@{/admin/rides(page = ${ridePage.getNumber() + 1})}" class="page-link haisya-page-link">›</a>
                     </li>
                 </ul>
             </nav>
         </div>
       </main>
-    </div>
-        </div>
     </div>
 
     <div th:replace="~{fragment :: scripts}"></div>
