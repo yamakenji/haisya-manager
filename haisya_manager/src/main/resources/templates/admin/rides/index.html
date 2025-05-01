@@ -9,24 +9,7 @@
     <div class="haisya-wrapper admin-rides-index-wrapper">
       <div th:replace="~{fragment :: header}"></div>
       <main>
-        <!-- 削除用モーダル -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
-              </div>
-              <div class="modal-footer">
-                <form method="post" action="" name="deleteForm">
-                  <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-                  <button type="submit" class="btn btn-danger">削除</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        
         <div class="haisya-container admin-rides-index-container">
           <nav class="my-2 pb-3" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
@@ -63,7 +46,7 @@
                 </td>
                 <td>
                   <a th:href="@{/admin/rides/__${ride.id}__/edit}" class="btn btn-primary my-1  mx-3 py-1 small-button">編集</a>
-                  <a th:href="@{/admin/rides/__${ride.id}__/delete}" class="btn btn-danger my-1 py-1 small-button" th:attr="data-bs-toggle='modal', data-bs-target='#deleteModal', data-action='/admin/rides/' + ${ride.id}">削除</a>
+                  <a href="#" class="btn btn-danger my-1 py-1 small-button" data-bs-toggle="modal" th:data-bs-target="${'#deleteRideModal' + ride.id}" th:attr="data-ride-id=${ride.id}">削除</a>
                 </td>
               </tr>
             </tbody>
@@ -88,12 +71,30 @@
                 </ul>
             </nav>
         </div>
-        </div>
       </main>
     </div>
         </div>
     </div>
 
     <div th:replace="~{fragment :: scripts}"></div>
-</body>
+
+    <!-- 削除用モーダル（body直下へ移動） -->
+    <th:block th:each="ride : ${ridePage}">
+      <div class="modal fade" th:id="${'deleteRideModal' + ride.id}" tabindex="-1" th:aria-labelledby="${'deleteRideModalLabel' + ride.id}" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" th:id="${'deleteRideModalLabel' + ride.id}" th:text="'削除しますか？'"></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+            </div>
+            <div class="modal-footer">
+              <form method="post" th:action="@{/admin/rides/__${ride.id}__/delete}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit" class="btn btn-danger text-white">削除</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </th:block>
 </html>

@@ -19,20 +19,20 @@ INSERT IGNORE INTO members (id, name, admin_id, team_id) VALUES
 (7, '松井', 2, 2);
 
 /* children テーブル */
-INSERT IGNORE INTO children (id, name, member_id) VALUES
-(1, '鈴木 一郎', 1),
-(2, '鈴木 次郎', 1),
-(3, '佐藤 太郎', 2),
-(4, '田中 三郎', 3),
-(5, '寺田 一郎', 4),
-(6, '寺田 次郎', 4),
-(7, '寺田 太郎', 4),
-(8, '今宮 三郎', 5),
-(9, '今宮 一郎', 5),
-(10, '小久保 次郎', 6),
-(11, '小久保 太郎', 6),
-(12, '松井 三郎', 7),
-(13, '松井 四郎', 7);
+INSERT IGNORE INTO children (id, name, admin_id, member_id) VALUES
+(1, '鈴木 一郎', 1, 1),
+(2, '鈴木 次郎', 1, 1),
+(3, '佐藤 太郎', 1, 2),
+(4, '田中 三郎', 1, 3),
+(5, '寺田 一郎', 1, 4),
+(6, '寺田 次郎', 1, 4),
+(7, '寺田 太郎', 1, 4),
+(8, '今宮 三郎', 2, 5),
+(9, '今宮 一郎', 2, 5),
+(10, '小久保 次郎', 2, 6),
+(11, '小久保 太郎', 2, 6),
+(12, '松井 三郎', 2, 7),
+(13, '松井 四郎', 2, 7);
 
 /* rides テーブル */
 INSERT IGNORE INTO rides (id, date, destination, memo, admin_id) VALUES

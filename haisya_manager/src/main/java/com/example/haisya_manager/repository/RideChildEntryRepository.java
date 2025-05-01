@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.haisya_manager.entity.Child;
 import com.example.haisya_manager.entity.RideChildEntry;
 
 public interface RideChildEntryRepository extends JpaRepository<RideChildEntry, Integer> {

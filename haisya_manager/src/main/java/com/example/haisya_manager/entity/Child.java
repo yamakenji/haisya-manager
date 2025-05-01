@@ -27,6 +27,10 @@ public class Child {
 	private String name;
 	
 	@ManyToOne
+	@JoinColumn(name = "admin_id")
+	private Admin admin;
+	
+	@ManyToOne
 	@JoinColumn(name = "member_id")
 	private Member member;
 	 
