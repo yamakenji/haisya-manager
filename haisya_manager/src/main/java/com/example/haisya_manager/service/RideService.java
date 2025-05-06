@@ -47,7 +47,7 @@ public class RideService {
 	}
 	
 	// ログイン中のadmin_idが指定した日付を取得する
-	public Page<Ride> findRidesByAdminAndDate(Integer adminId, LocalDate date, Pageable pageable) {
+	public Page<Ride> findRidesByAdminIdAndDate(Integer adminId, LocalDate date, Pageable pageable) {
 		return rideRepository.findByAdminIdAndDate(adminId, date, pageable);
 	}
 	

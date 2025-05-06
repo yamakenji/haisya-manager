@@ -55,7 +55,7 @@ public class AdminRideController {
 	
 		// 日付が検索された場合指定された日付のみの配車一覧を表示する
 		if (date != null) {
-			ridePage = rideService.findRidesByAdminAndDate(adminId, date, pageable);
+			ridePage = rideService.findRidesByAdminIdAndDate(adminId, date, pageable);
 		} else {
 			ridePage = rideService.findRidesByAdminIdOrderByDateDesc(adminId, pageable);
 		}

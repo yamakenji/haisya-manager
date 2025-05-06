@@ -138,6 +138,10 @@ button {
   border-color: #5196a6 !important;
 }
 
+.haisya-member-name {
+  font-size: 1.2rem;
+}
+
 @media screen and (min-width: 1400px) {
   .haisya-container {
     max-width: 1200px;

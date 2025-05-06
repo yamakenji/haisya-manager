@@ -9,23 +9,7 @@
     <div class="haisya-wrapper admin-members-index-wrapper">
       <main>
         <div th:replace="~{fragment :: header}"></div>
-        <!-- 削除用モーダル -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
-              </div>
-              <div class="modal-footer">
-                <form method="post" action="" name="deleteForm">
-                  <input type="hidden" name="_csrf" th:value="${_csrf.token}">
-                  <button type="submit" class="btn btn-danger">削除</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
+        
 
         <div class="haisya-container admin-members-index-container">
           <nav class="my-2 pb-3" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
@@ -35,21 +19,35 @@
               <li class="breadcrumb-item"><a th:href="@{/admin/members/register}">メンバー登録</a></li>
             </ol>
           </nav>
+          <form method="get" th:action="@{/admin/members}" class="mb-3 px-1">
+            <div class="input-group">
+              <input type="text" name="keyword" class="form-control mx-0" placeholder="名前" th:value="${keyword}">
+              <button type="submit" class="btn btn-primary small-button py-0 px-3 mb-2">検索</button>
+            </div>
+          </form>
           
           <h1>メンバー一覧</h1>
 
+          <div th:if="${successMessage}" class="alert alert-info py-1">
+            <span th:text="${successMessage}"></span>
+          </div>
+
+          <div th:if="${errorMessage}" class="alert alert-danger py-1">
+            <span th:text="${errorMessage}"></span>
+          </div>
+
           <table class="haisya-table" >
             <thead>
-              <tr><th>名前</th></tr>
+              <tr><th></th></tr>
             </thead>
             <tbody>
-              <tr th:each="ride : ${ridePage}">
+              <tr th:each="member : ${memberPage}">
                 <td>
-                  <a th:href="@{/admin/members/__${member.id}__}" th:text="${member.name}"></a>
+                  <a th:href="@{/admin/members/__${member.id}__}" th:text="${member.name}" class="haisya-member-name"></a>
                 </td>
                 <td>
-                  <a th:href="@{/admin/members/{id}(id=${member.id})/edit}" class="btn btn-primary">編集</a>
-                  <a href="#" class="btn btn-danger" th:attr="data-bs-toggle='modal', data-bs-target='#deleteModal', data-action='/admin/rides/' + ${ride.id}">削除</a>
+                  <a th:href="@{/admin/members/__${member.id}__/edit}" class="btn btn-primary my-1  mx-5 py-1 small-button">編集</a>
+                  <a href="#" class="btn btn-danger my-1 py-1 small-button" data-bs-toggle="modal" th:data-bs-target="${'#deleteModal' + member.id}" th:attr="data-member-id=${member.id}">削除</a>
                 </td>
               </tr>
             </tbody>
@@ -61,15 +59,15 @@
                 <ul class="pagination">
                     <li class="page-item">
                         <span th:if="${memberPage.isFirst()}" class="page-link disabled">‹</span>
-                        <a th:unless="${memberPage.isFirst()}" th:href="@{/admin/members(page = ${memberPage.getNumber() - 1})}" class="page-link nagoyameshi-page-link">‹</a>
+                        <a th:unless="${memberPage.isFirst()}" th:href="@{/admin/members(page = ${memberPage.getNumber() - 1})}" class="page-link haisya-page-link">‹</a>
                     </li>
                     <li th:each="i : ${#numbers.sequence(0, memberPage.getTotalPages() - 1)}" class="page-item">
-                        <span th:if="${i == memberPage.getNumber()}" class="page-link active nagoyameshi-active" th:text="${i + 1}"></span>
-                        <a th:unless="${i == memberPage.getNumber()}" th:href="@{/admin/members(page = ${i})}" class="page-link nagoyameshi-page-link" th:text="${i + 1}"></a>
+                        <span th:if="${i == memberPage.getNumber()}" class="page-link active haisya-active" th:text="${i + 1}"></span>
+                        <a th:unless="${i == memberPage.getNumber()}" th:href="@{/admin/members(page = ${i})}" class="page-link haisya-page-link" th:text="${i + 1}"></a>
                     </li>
                     <li class="page-item">
                         <span th:if="${memberPage.isLast()}" class="page-link disabled">›</span>
-                        <a th:unless="${memberPage.isLast()}" th:href="@{/admin/members(page = ${memberPage.getNumber() + 1})}" class="page-link nagoyameshi-page-link">›</a>
+                        <a th:unless="${memberPage.isLast()}" th:href="@{/admin/members(page = ${memberPage.getNumber() + 1})}" class="page-link haisya-page-link">›</a>
                     </li>
                 </ul>
             </nav>
@@ -81,5 +79,22 @@
     </div>
 
     <div th:replace="~{fragment :: scripts}"></div>
+    <!-- 削除用モーダル -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+          </div>
+          <div class="modal-footer">
+            <form method="post" action="" name="deleteForm">
+              <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+              <button type="submit" class="btn btn-danger">削除</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 </body>
 </html>

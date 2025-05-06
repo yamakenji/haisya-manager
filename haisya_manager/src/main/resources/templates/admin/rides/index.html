@@ -76,7 +76,7 @@
 
     <div th:replace="~{fragment :: scripts}"></div>
 
-    <!-- 削除用モーダル（body直下へ移動） -->
+    <!-- 削除用モーダル -->
     <th:block th:each="ride : ${ridePage}">
       <div class="modal fade" th:id="${'deleteRideModal' + ride.id}" tabindex="-1" th:aria-labelledby="${'deleteRideModalLabel' + ride.id}" aria-hidden="true">
         <div class="modal-dialog">
@@ -95,4 +95,5 @@
         </div>
       </div>
     </th:block>
+  </body>
 </html>
