@@ -37,13 +37,13 @@
           <div class="mb-3">
             <label>配車号</label>
             <div class="row justify-content-between">
-              <div th:each="i : ${#numbers.sequence(1, 5)}" class="col-md-2 mb-2">
-                <select th:name="'member' + ${i}" th:id="'car-select-' + ${i}" class="form-select">
-                  <option value="" th:selected="${rideMemberEntries == null || rideMemberEntries.size() < i || rideMemberEntries[i-1] == null}"></option>
-                  <option th:each="memberCanEntry : ${rideMemberCanEntries}" 
-                          th:value="${memberCanEntry.member.name + '号'}"
+              <div th:each="entry, iStat : *{rideMemberEntries}" class="col-md-2 mb-2">
+                <select th:field="*{rideMemberEntries[__${iStat.index}__].memberName}" class="form-select">
+                  <option value=""></option>
+                  <option th:each="memberCanEntry : ${rideMemberCanEntries}"
+                          th:value="${memberCanEntry.member.name}"
                           th:text="${memberCanEntry.member.name + '号'}"
-                          th:selected="${rideMemberEntries != null && rideMemberEntries.size() >= i && rideMemberEntries[i-1] != null && memberCanEntry.member.name == rideMemberEntries[i-1].member.name}">
+                          th:selected="${memberCanEntry.member.name == entry.memberName}">
                   </option>
                 </select>
               </div>
@@ -52,24 +52,26 @@
 
           <!-- 子供 -->
           <div class="mb-3">
-            <label>子供 (最大5名/台)</label>
             <div class="row justify-content-between">
-              <!-- 縦に5つ -->
-              <div th:each="i : ${#numbers.sequence(1,5)}" class="col-md-2 mb-2">
-                <!-- 横に5つ -->
-                <div th:each="j : ${#numbers.sequence(1,5)}" class="mb-1">
-                  <select th:name="|child${i}_${j}|" th:id="|child-${i}-${j}|" class="form-select form-select-sm">
-                    <option value=""></option>
-                    <option th:each="child : ${childrenList}"
-                            th:value="${child.id}"
-                            th:text="${child.name}">
-                    </option>
-                  </select>
-                </div>
+              <div th:each="entry, iStat : *{rideMemberEntries}" 
+                  class="col-md-2 mb-2">
+                  <div th:each="j : ${#numbers.sequence(0,4)}" class="col-md-2 mb-2">
+                    <select class="form-select"
+                            th:name="|rideMemberEntries[${iStat.index}].childIds[${j}]|"
+                            th:id="|rideMemberEntries[${iStat.index}].childIds[${j}]|"
+                            th:disabled="${entry.memberName == null or entry.memberName.isEmpty()}">
+                      <option value=""></option>
+                      <option th:each="child : ${childrenList}"
+                              th:value="${child.id}"
+                              th:text="${child.name}"
+                              th:selected="${entry.childIds != null and entry.childIds.size() > j and entry.childIds[j] == child.id}">
+                      </option>
+                    </select>
+                  </div>
               </div>
             </div>
           </div>
-
+          
           <!-- 行き先 -->
           <div class="mb-3">
             <label for="destination">行き先</label>

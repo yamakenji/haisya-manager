@@ -1,7 +1,10 @@
 package com.example.haisya_manager.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -27,6 +30,7 @@ import com.example.haisya_manager.entity.RideChildEntry;
 import com.example.haisya_manager.entity.RideEntry;
 import com.example.haisya_manager.entity.RideMemberEntry;
 import com.example.haisya_manager.form.RideEditForm;
+import com.example.haisya_manager.form.RideMemberEntryForm;
 import com.example.haisya_manager.form.RideRegisterForm;
 import com.example.haisya_manager.security.UserDetailsImpl;
 import com.example.haisya_manager.service.RideService;
@@ -157,7 +161,40 @@ public class AdminRideController {
 		List<Child> childrenList = rideService.findChildIdsByAdminId(adminId);
 		
 		Ride ride = optionalRide.get();
-		RideEditForm rideEditForm = new RideEditForm(ride.getDate(), ride.getDestination(), null, null, ride.getMemo());
+		
+		// 保護者ごとに子供IDのリストをまとめる
+		Map<String, List<Integer>> memberNameToChildIds = new HashMap<>();
+		for (RideChildEntry entry : rideChildEntries) {
+	        String memberName = entry.getRideMemberEntry().getMember().getName();
+	        Integer childId = entry.getChild().getId();
+
+	        memberNameToChildIds
+	            .computeIfAbsent(memberName, k -> new ArrayList<>())
+	            .add(childId);
+	    }
+
+	    // RideMemberEntryForm を作成
+	    List<RideMemberEntryForm> rideMemberEntryForms = new ArrayList<>();
+	    for (RideMemberEntry rideMemberEntry : rideMemberEntries) {
+	        String memberName = rideMemberEntry.getMember().getName();
+	        List<Integer> childIds = memberNameToChildIds.getOrDefault(memberName, new ArrayList<>());
+
+	        RideMemberEntryForm entryForm = new RideMemberEntryForm();
+	        entryForm.setMemberName(memberName);
+	        entryForm.setChildIds(childIds);
+
+	        rideMemberEntryForms.add(entryForm);
+	    }
+		
+		RideEditForm rideEditForm = new RideEditForm();
+		rideEditForm.setDate(ride.getDate());
+		rideEditForm.setDestination(ride.getDestination());
+		rideEditForm.setMemo(ride.getMemo());
+		rideEditForm.setRideMemberEntries(rideMemberEntryForms);
+		
+		while (rideEditForm.getRideMemberEntries().size() < 5) {
+			rideEditForm.getRideMemberEntries().add(new RideMemberEntryForm());
+		}
 		
 		model.addAttribute("ride", ride);
 		model.addAttribute("rideMemberEntries", rideMemberEntries);
@@ -185,19 +222,18 @@ public class AdminRideController {
 			return "redirect:/admin/rides";
 		}
 		Ride ride = optionalRide.get();
-		RideMemberEntry rideMemberEntry = new RideMemberEntry();
-		RideChildEntry rideChildEntry = new RideChildEntry();
 		
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("ride", ride);
 			model.addAttribute("rideEditForm", rideEditForm);
 			return "admin/rides/edit";
 		}
-		rideService.updateRide(rideEditForm, ride, rideMemberEntry, rideChildEntry);
+		rideService.updateAllRide(rideEditForm, ride);
 		redirectAttributes.addFlashAttribute("successMessage", "配車予定を編集しました。");
 		return "redirect:/admin/rides/{rideId}";
 	}
 	
+	// 配車を削除する
 	@PostMapping("/{rideId}/delete")
 	public String delete(@PathVariable(name = "rideId") Integer rideId,
 						 RedirectAttributes redirectAttributes)
