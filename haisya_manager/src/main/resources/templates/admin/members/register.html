@@ -15,38 +15,72 @@
                     <li class="breadcrumb-item active" aria-current="page">メンバー登録</li>
                 </ol>
             </nav>
-            <form action="@{/admin/members/register}" method="post" th:object="${memberForm}" class="register-form">
+            <form action="@{/admin/members/register}" method="post" th:object="${memberRegisterForm}" class="register-form">
                 <h1>新規メンバー登録</h1>
 
-                <!-- 名前 -->
-                <div>
-                    <label>名前<span class="required">必須</span></label>
-                    <input type="text" th:field="*{name}" placeholder="名前">
-                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                <!-- 保護者情報 -->
+                <div class="form-group row mb-3">
+                    <div class="col-md-5">
+                        <label class="col-form-label text-md-left fw-bold">
+                            <div class="d-flex align-items-center">
+                                <span>保護者名</span>
+                                <span class="badge bg-danger">必須</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="保護者名を入力">
+                        <div th:if="${#fields.hasErrors('name')}" class="form-error text-danger small mb-2" th:errors="*{name}"></div>
+                    </div>
                 </div>
 
-                <!-- 子供の名前1 -->
-                <div>
-                    <label>子供の名前1<span class="required">必須</span></label>
-                    <input type="text" th:field="*{childName1}" placeholder="子供の名前1">
-                    <div th:if="${#fields.hasErrors('childName1')}" th:errors="*{childName1}"></div>
+                <!-- 子供の名前 -->
+                <div class="form-group row mb-3">
+                    <div class="col-md-5">
+                        <label class="col-form-label text-md-left fw-bold">
+                            <div class="d-flex align-items-center">
+                                <span>子供の名前1</span>
+                                <span class="badge bg-danger">必須</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" th:field="*{children[0].name}" id="children[0].name" placeholder="子供の名前を入力">
+                        <div th:if="${#fields.hasErrors('children[0].name')}" class="form-error text-danger small mb-2" th:errors="*{children[0].name}"></div>
+                    </div>
                 </div>
 
-                <!-- 子供の名前2 -->
-                <div>
-                    <label>子供の名前2<span class="required">必須</span></label>
-                    <input type="text" th:field="*{childName2}" placeholder="子供の名前2">
-                    <div th:if="${#fields.hasErrors('childName2')}" th:errors="*{childName2}"></div>
+                <div class="form-group row  mb-3">
+                    <div class="col-md-5">
+                        <label class="col-form-label text-md-left fw-bold">
+                            <div class="d-flex align-items-center">
+                                <span>子供の名前2</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" th:field="*{children[1].name}" id="children[1].name" placeholder="子供の名前を入力">
+                        <div th:if="${#fields.hasErrors('children[1].name')}" class="form-error text-danger small mb-2" th:errors="*{children[1].name}"></div>
+                    </div>
                 </div>
 
-                <!-- 子供の名前3 -->
-                <div>
-                    <label>子供の名前3<span class="required">必須</span></label>
-                    <input type="text" th:field="*{childName3}" placeholder="子供の名前3">
-                    <div th:if="${#fields.hasErrors('childName3')}" th:errors="*{childName3}"></div>
+                <div class="form-group row mb-3">
+                    <div class="col-md-5">
+                        <label class="col-form-label text-md-left fw-bold">
+                            <div class="d-flex align-items-center">
+                                <span>子供の名前3</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" th:field="*{children[2].name}" id="children[2].name" placeholder="子供の名前を入力">
+                        <div th:if="${#fields.hasErrors('children[2].name')}" class="form-error text-danger small mb-2" th:errors="*{children[2].name}"></div>
+                    </div>
                 </div>
 
-                <button type="submit">登録</button>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn haisya-btn">登録</button>
+                </div>
             </form>
         </div>
     </div>

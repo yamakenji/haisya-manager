@@ -44,8 +44,8 @@ button {
 }
 
 .haisya-btn {
-	background-color: #5196a6;
-  color: white;
+	background-color: #5196a6 !important;
+  color: white !important;
 	transition: 0.1s;
 }
 

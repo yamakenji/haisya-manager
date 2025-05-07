@@ -89,7 +89,7 @@ public class RideService {
 		
 		rideRepository.save(ride);
 	}
-	
+	/*
 	// 配車登録した内容を更新する
 	@Transactional
 	public void updateRide(RideEditForm rideEditForm, Ride ride) {
@@ -101,7 +101,7 @@ public class RideService {
 		rideRepository.save(ride);
 	}
 	
-	/* 配車号（保護者）を登録する
+	// 配車号（保護者）を登録する
 	@Transactional
 	public void createRideMember(RideEditForm rideEditForm, Ride ride) {
 		// RideEditFormで入力された保護者のidをループする
@@ -146,7 +146,6 @@ public class RideService {
 		
 		// 既存の子エントリ→メンバーエントリの順で一掃
 		rideChildEntryRepository.deleteByRideId(ride.getId());
-		rideChildEntryRepository.flush();
 		rideMemberEntryRepository.deleteByRideId(ride.getId()); 
 		
 		// 新しいエントリの作成

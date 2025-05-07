@@ -19,28 +19,25 @@
             <h1>メンバー詳細</h1>
 
                 <!-- 名前 -->
-                <div>
-                    <label>名前</label>
-                    <input type="text" th:field="*{name}" placeholder="名前" readonly>
+                <div class="row pb-2 mb-2 border-bottom">
+                    <div class="col-4">
+                        <span class="fw-bold">保護者名</span>
+                    </div>
+                    <div class="col">
+                        <span th:text="${member.name}" class="form-control-plaintext"></span>
+                    </div>
                 </div>
 
-                <!-- 子供の名前1 -->
-                <div>
-                    <label>子供の名前1</label>
-                    <input type="text" th:field="*{childName1}" placeholder="子供の名前1" readonly>
+                <!-- 子供の名前 -->
+                <div class="row pb-2 mb-2 border-bottom">
+                    <div class="col-4">
+                        <span class="fw-bold">子供名</span>
+                    </div>
+                    <div class="col">
+                        <span th:each="child : ${childList}" th:text="${child.name}" class="form-control-plaintext"></span>
+                    </div>
                 </div>
 
-                <!-- 子供の名前2 -->
-                <div>
-                    <label>子供の名前2</label>
-                    <input type="text" th:field="*{childName2}" placeholder="子供の名前2" readonly>
-                </div>
-
-                <!-- 子供の名前3 -->
-                <div>
-                    <label>子供の名前3</label>
-                    <input type="text" th:field="*{childName3}" placeholder="子供の名前3" readonly>
-                </div>
         </div>
     </div>
 

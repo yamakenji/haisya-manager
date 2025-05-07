@@ -1,5 +1,8 @@
 package com.example.haisya_manager.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -8,11 +11,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.haisya_manager.entity.Child;
 import com.example.haisya_manager.entity.Member;
+import com.example.haisya_manager.form.MemberRegisterForm;
 import com.example.haisya_manager.security.UserDetailsImpl;
 import com.example.haisya_manager.service.MemberService;
 
@@ -45,6 +51,42 @@ public class AdminMemberController {
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("memberPage", memberPage);
 		return "admin/members/index";
+	}
+	
+	// メンバー詳細を表示する
+	@GetMapping("/{memberId}")
+	public String show(@PathVariable(name = "memberId") Integer memberId,
+					   @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+					   RedirectAttributes redirectAttributes,
+					   Model model)
+	{
+		Optional<Member> optionalMember = memberService.findMemberById(memberId);
+		
+		if (optionalMember.isEmpty()) {
+			redirectAttributes.addFlashAttribute("errorMessage", "メンバーが存在しません。");
+			return "redirect:/admin/members";
+		}
+		
+		Member member = optionalMember.get();
+		List<Child> childList = memberService.findChildrenByMemberId(memberId);
+		
+		// ログイン中以外の人がメンバー詳細を見た場合のエラー処理
+		if (!member.getAdmin().getId().equals(userDetailsImpl.getAdmin().getId())) {
+			redirectAttributes.addFlashAttribute("errorMessage", "指定されたユーザーでログインしてください。");
+			return "redirect:/admin/members";
+		}
+		
+		model.addAttribute("childList", childList);
+		model.addAttribute("member", member);
+		
+		return "admin/members/show";
+	}
+	
+	// メンバー登録ページを表示する
+	@GetMapping("/register")
+	public String register(Model model) {
+		model.addAttribute("memberRegisterForm", new MemberRegisterForm());
+		return "admin/members/register";
 	}
 
 }
