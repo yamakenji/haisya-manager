@@ -15,8 +15,9 @@
                     <li class="breadcrumb-item active" aria-current="page">メンバー登録</li>
                 </ol>
             </nav>
-            <form action="@{/admin/members/register}" method="post" th:object="${memberRegisterForm}" class="register-form">
-                <h1>新規メンバー登録</h1>
+            <h1>新規メンバー登録</h1>
+            <form th:action="@{/admin/members/create}" th:object="${memberRegisterForm}" method="post">
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 
                 <!-- 保護者情報 -->
                 <div class="form-group row mb-3">

@@ -10,14 +10,19 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.haisya_manager.entity.Child;
 import com.example.haisya_manager.entity.Member;
+import com.example.haisya_manager.form.ChildRegisterForm;
 import com.example.haisya_manager.form.MemberRegisterForm;
 import com.example.haisya_manager.security.UserDetailsImpl;
 import com.example.haisya_manager.service.MemberService;
@@ -89,4 +94,40 @@ public class AdminMemberController {
 		return "admin/members/register";
 	}
 
+	// メンバーと子供を登録する
+	@PostMapping("/create")
+	public String create(@ModelAttribute @Validated MemberRegisterForm memberRegisterForm,
+						 BindingResult memberBindingResult,
+						 @ModelAttribute @Validated ChildRegisterForm childRegisterForm,
+						 BindingResult childBindingResult,
+						 @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+						 RedirectAttributes redirectAttributes,
+						 Model model)
+	{
+		if (memberBindingResult.hasErrors() || childBindingResult.hasErrors()) {
+			model.addAttribute("memberRegisterForm", memberRegisterForm);
+			model.addAttribute("childRegisterForm", childRegisterForm);
+			return "admin/members/register";
+		}
+		
+		memberService.createMember(userDetailsImpl, memberRegisterForm, childRegisterForm);
+		redirectAttributes.addFlashAttribute("successMessage", "メンバーを登録しました。");
+		return "redirect:/admin/members";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <div th:replace="~{fragment :: meta}"></div>
   <div th:replace="~{fragment :: styles}"></div>
@@ -18,7 +18,7 @@
         <h1>配車登録</h1>
 
         <form th:action="@{/admin/rides/create}" th:object="${rideRegisterForm}" method="post">
-          <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+          <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 
           <!-- 日付 -->
           <div class="mb-3">
