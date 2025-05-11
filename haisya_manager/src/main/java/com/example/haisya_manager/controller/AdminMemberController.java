@@ -1,5 +1,6 @@
 package com.example.haisya_manager.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.haisya_manager.entity.Child;
 import com.example.haisya_manager.entity.Member;
+import com.example.haisya_manager.form.ChildEditForm;
 import com.example.haisya_manager.form.ChildRegisterForm;
+import com.example.haisya_manager.form.MemberEditForm;
 import com.example.haisya_manager.form.MemberRegisterForm;
 import com.example.haisya_manager.security.UserDetailsImpl;
 import com.example.haisya_manager.service.MemberService;
@@ -115,7 +118,41 @@ public class AdminMemberController {
 		return "redirect:/admin/members";
 	}
 	
-	
+	// メンバーと子供の編集ページを表示する
+	@GetMapping("/{memberId}/edit")
+	public String edit(@PathVariable(name = "memberId") Integer memberId,
+					   RedirectAttributes redirectAttributes,
+					   Model model)
+	{
+		Optional<Member> optionalMember = memberService.findMemberById(memberId);
+		
+		if (optionalMember.isEmpty()) {
+			redirectAttributes.addFlashAttribute("errorMessage", "メンバーが存在しません。");
+			return "redirect:/admin/members";
+		}
+		
+		Member member = optionalMember.get();
+		List<Child> children = memberService.findChildrenByMemberId(memberId);
+		MemberEditForm memberEditForm = new MemberEditForm();
+		memberEditForm.setName(member.getName());
+		
+		// 子供の名前を設定する
+		List<ChildEditForm> childEditFormList = new ArrayList<>();
+		for (Child child : children) {
+			ChildEditForm childEditForm = new ChildEditForm();
+			childEditForm.setName(child.getName());
+			childEditFormList.add(childEditForm);
+		}
+		
+		while (childEditFormList.size() < 3) {
+			childEditFormList.add(new ChildEditForm());
+		}
+		memberEditForm.setChildren(childEditFormList);
+		
+		model.addAttribute("member", member);
+		model.addAttribute("memberEditForm", memberEditForm);
+		return "admin/members/edit";
+	}
 	
 	
 	

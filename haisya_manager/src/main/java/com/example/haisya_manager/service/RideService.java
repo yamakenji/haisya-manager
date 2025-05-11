@@ -144,9 +144,16 @@ public class RideService {
 		ride.setMemo(rideEditForm.getMemo());
 		rideRepository.save(ride);
 		
+		Integer rideId = ride.getId();
+		if (rideId == null) {
+			throw new IllegalArgumentException("Ride ID cannot be null");
+		}
+		
 		// 既存の子エントリ→メンバーエントリの順で一掃
 		rideChildEntryRepository.deleteByRideId(ride.getId());
+		// rideChildEntryRepository.flush();
 		rideMemberEntryRepository.deleteByRideId(ride.getId()); 
+		// rideMemberEntryRepository.flush();
 		
 		// 新しいエントリの作成
 		List<RideMemberEntry> newMemberEntries = new ArrayList<>();
@@ -168,6 +175,9 @@ public class RideService {
 			
 			for (Integer childId : entryForm.getChildIds()) {
 				childRepository.findById(childId).ifPresent(child -> {
+					
+					System.out.println(childId + "はあります。");
+					
 					RideChildEntry rideChildEntry = new RideChildEntry();
 					rideChildEntry.setRide(ride);
 					rideChildEntry.setRideMemberEntry(rideMemberEntry);

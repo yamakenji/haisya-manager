@@ -1,5 +1,6 @@
 package com.example.haisya_manager.form;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
@@ -13,5 +14,5 @@ public class MemberEditForm {
 	private String name;
 	
 	@Size(min = 1, message = "少なくとも1人以上の子供の名前を入力してください。")
-	private List<ChildEditForm> children;
+	private List<ChildEditForm> children = new ArrayList();
 }

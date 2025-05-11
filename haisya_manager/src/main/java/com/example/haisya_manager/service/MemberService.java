@@ -74,6 +74,8 @@ public class MemberService {
 			child.setMember(member);
 			childRepository.save(child);
 		}
+		
+		
 	}
 
 }
