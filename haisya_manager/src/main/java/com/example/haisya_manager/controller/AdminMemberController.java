@@ -185,15 +185,21 @@ public class AdminMemberController {
 		return "redirect:/admin/members";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	// メンバーを削除する
+	@PostMapping("/{memberId}/delete")
+	public String delete(@PathVariable(name = "memberId") Integer memberId,
+						 RedirectAttributes redirectAttributes)
+	{
+		Optional<Member> optionalMember = memberService.findMemberById(memberId);
+		
+		if (optionalMember.isEmpty()) {
+			redirectAttributes.addFlashAttribute("errorMessage", "メンバーが存在しません。");
+			return "redirect:/admin/members";
+		}
+		
+		Member member = optionalMember.get();
+		memberService.deleteMember(member);
+		redirectAttributes.addFlashAttribute("successMessage", "メンバーを削除しました。");
+		return "redirect:/admin/members";
+	}
 }

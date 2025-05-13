@@ -108,5 +108,11 @@ public class MemberService {
 			}
 		}
 	}
+	
+	// メンバーを削除する
+	@Transactional
+	public void deleteMember(Member member) {
+		memberRepository.delete(member);
+	}
 
 }
