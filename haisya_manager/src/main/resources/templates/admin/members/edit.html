@@ -17,7 +17,7 @@
                 </ol>
             </nav>
             <h1>メンバー編集</h1>
-            <form action="@{/admin/members/edit}" method="post" th:object="${memberEditForm}" class="edit-form">
+            <form th:action="@{/admin/members/{id}/update(id=${member.id})}" method="post" th:object="${memberEditForm}" class="edit-form">
                 <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                 <!-- 名前 -->
                 <div class="form-group row mb-3">

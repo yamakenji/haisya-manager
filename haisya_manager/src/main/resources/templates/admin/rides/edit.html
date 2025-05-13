@@ -19,7 +19,7 @@
         </nav>
         <h1>配車編集</h1>
 
-        <form th:action="@{/admin/rides/__${ride.id}__/update}" th:object="${rideEditForm}" method="post">
+        <form th:action="@{/admin/rides/{id}/update(id=${ride.id})}" th:object="${rideEditForm}" method="post">
           <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
 
           <!-- TODO 登録している日付を表示する方法 -->

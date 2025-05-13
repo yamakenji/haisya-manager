@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.haisya_manager.entity.Child;
 import com.example.haisya_manager.entity.Member;
 import com.example.haisya_manager.entity.Team;
+import com.example.haisya_manager.form.ChildEditForm;
 import com.example.haisya_manager.form.ChildRegisterForm;
+import com.example.haisya_manager.form.MemberEditForm;
 import com.example.haisya_manager.form.MemberRegisterForm;
 import com.example.haisya_manager.repository.ChildRepository;
 import com.example.haisya_manager.repository.MemberRepository;
@@ -62,20 +64,49 @@ public class MemberService {
 		memberRepository.save(member);
 		
 		// 登録された子供の数だけループする
-		
 		for (int i = 0; i < memberRegisterForm.getChildren().size(); i++) {
-			Child child = new Child();
 			String childName = memberRegisterForm.getChildren().get(i).getName();
 			if (childName != null && !childName.isEmpty()) {
+				Child child = new Child();
 				child.setName(childName);
-				System.out.println(childName);
+				child.setAdmin(userDetailsImpl.getAdmin());
+				child.setMember(member);
+				childRepository.save(child);
 			}
-			child.setAdmin(userDetailsImpl.getAdmin());
-			child.setMember(member);
-			childRepository.save(child);
+		}
+	}
+	
+	// メンバーを編集する
+	@Transactional
+	public void updateMember(UserDetailsImpl userDtailsImpl,
+							 MemberEditForm memberEditForm,
+							 ChildEditForm childEditForm,
+							 Member member) {
+		
+		member.setName(memberEditForm.getName());
+		member.setAdmin(userDtailsImpl.getAdmin());
+		
+		Team team = teamRepository.findByAdminId(userDtailsImpl.getAdmin().getId());
+		member.setTeam(team);
+		memberRepository.save(member);
+		
+		// 既存の子供を全て削除
+		List<Child> childList = childRepository.findByMemberId(member.getId());
+		for (Child child : childList) {
+			childRepository.delete(child);
 		}
 		
-		
+		// 新しい子供及び既存の子供を入力を登録
+		for (int i = 0; i < memberEditForm.getChildren().size(); i++) {
+			String childName = memberEditForm.getChildren().get(i).getName();
+			if (childName != null && !childName.isEmpty()) {
+				Child child = new Child();
+				child.setName(childName);
+				child.setAdmin(userDtailsImpl.getAdmin());
+				child.setMember(member);
+				childRepository.save(child);
+			}
+		}
 	}
 
 }

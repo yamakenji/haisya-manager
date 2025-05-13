@@ -109,7 +109,6 @@ public class AdminMemberController {
 	{
 		if (memberBindingResult.hasErrors() || childBindingResult.hasErrors()) {
 			model.addAttribute("memberRegisterForm", memberRegisterForm);
-			model.addAttribute("childRegisterForm", childRegisterForm);
 			return "admin/members/register";
 		}
 		
@@ -132,18 +131,21 @@ public class AdminMemberController {
 		}
 		
 		Member member = optionalMember.get();
-		List<Child> children = memberService.findChildrenByMemberId(memberId);
 		MemberEditForm memberEditForm = new MemberEditForm();
 		memberEditForm.setName(member.getName());
 		
-		// 子供の名前を設定する
+		// メンバーに紐づく子供の名前を取得する、編集フォームに表示させるため
+		List<Child> children = memberService.findChildrenByMemberId(memberId);
+		
+		// 既存の子供の情報を編集フォームに変換する
 		List<ChildEditForm> childEditFormList = new ArrayList<>();
 		for (Child child : children) {
 			ChildEditForm childEditForm = new ChildEditForm();
+			// 取得した子供の名前を編集フォームを初期化して子供の名前をセットする
 			childEditForm.setName(child.getName());
 			childEditFormList.add(childEditForm);
 		}
-		
+		// 3人未満の場合からの編集フォームを追加する
 		while (childEditFormList.size() < 3) {
 			childEditFormList.add(new ChildEditForm());
 		}
@@ -154,7 +156,34 @@ public class AdminMemberController {
 		return "admin/members/edit";
 	}
 	
-	
+	// メンバーを編集する
+	@PostMapping("/{memberId}/update")
+	public String update(@PathVariable(name = "memberId") Integer memberId,
+						 @ModelAttribute @Validated MemberEditForm memberEditForm,
+						 BindingResult memberBindingResult,
+						 @ModelAttribute @Validated ChildEditForm childEditForm,
+						 BindingResult childBindingResult,
+						 @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+						 RedirectAttributes redirectAttributes,
+						 Model model)
+	{
+		Optional<Member> optionalMember = memberService.findMemberById(memberId);
+		
+		if (optionalMember.isEmpty()) {
+			redirectAttributes.addFlashAttribute("errorMessage", "メンバーが存在しません。");
+			return "redirect:/admin/members";
+		}
+		
+		if (memberBindingResult.hasErrors() || childBindingResult.hasErrors()) {
+			model.addAttribute("memberEditForm", memberEditForm);
+			return "admin/members/edit";
+		}
+		
+		Member member = optionalMember.get();
+		memberService.updateMember(userDetailsImpl, memberEditForm, childEditForm, member);
+		redirectAttributes.addFlashAttribute("successMessage", "メンバーを編集しました。");
+		return "redirect:/admin/members";
+	}
 	
 	
 	

@@ -12,6 +12,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "ride_child_entry")
@@ -28,6 +30,7 @@ public class RideChildEntry {
 	
 	@ManyToOne
 	@JoinColumn(name = "child_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Child child;
 	
 	@ManyToOne

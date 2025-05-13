@@ -14,5 +14,5 @@ public class MemberEditForm {
 	private String name;
 	
 	@Size(min = 1, message = "少なくとも1人以上の子供の名前を入力してください。")
-	private List<ChildEditForm> children = new ArrayList();
+	private List<ChildEditForm> children = new ArrayList<>();
 }
