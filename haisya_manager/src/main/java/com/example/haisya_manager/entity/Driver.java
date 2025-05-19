@@ -14,14 +14,14 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "ride_entries")
+@Table(name = "drivers")
 @Data
-public class RideEntry {
+public class Driver {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ride_id")
 	private Ride ride;
@@ -30,13 +30,13 @@ public class RideEntry {
 	@JoinColumn(name = "member_id")
 	private Member member;
 	
-	@Column(name = "can_drive")
-	private Boolean canDrive;
-	 
+	@ManyToOne
+	@JoinColumn(name = "ride_entry_id")
+	private RideEntry rideEntry;
+	
 	@Column(name = "created_at", insertable = false, updatable = false)
 	private Timestamp createdAt;
 	 
 	@Column(name = "updated_at", insertable = false, updatable = false)
 	private Timestamp updatedAt;
-
 }

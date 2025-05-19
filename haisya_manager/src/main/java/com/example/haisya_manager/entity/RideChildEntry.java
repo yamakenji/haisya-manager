@@ -12,11 +12,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "ride_child_entry")
+@Table(name = "ride_child_entries")
 @Data
 public class RideChildEntry {
 	@Id
@@ -30,12 +28,11 @@ public class RideChildEntry {
 	
 	@ManyToOne
 	@JoinColumn(name = "child_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Child child;
 	
 	@ManyToOne
-	@JoinColumn(name = "ride_member_id")
-	private RideMemberEntry rideMemberEntry;
+	@JoinColumn(name = "driver_id")
+	private Driver driver;
 	
 	@Column(name = "created_at", insertable = false, updatable = false)
 	private Timestamp createdAt;

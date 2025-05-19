@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS rides (
    FOREIGN KEY (admin_id) REFERENCES admins (id)
 );
 
-CREATE TABLE IF NOT EXISTS ride_entry (
+CREATE TABLE IF NOT EXISTS ride_entries (
    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
    ride_id INT NOT NULL,
    member_id INT NOT NULL,
@@ -61,24 +61,38 @@ CREATE TABLE IF NOT EXISTS ride_entry (
    FOREIGN KEY (member_id) REFERENCES members (id)
 );
 
-CREATE TABLE IF NOT EXISTS ride_member_entry (
+CREATE TABLE IF NOT EXISTS drivers (
    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
    ride_id INT NOT NULL,
    member_id INT NOT NULL,
+   ride_entry_id INT NOT NULL,
    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    FOREIGN KEY (ride_id) REFERENCES rides (id),
-   FOREIGN KEY (member_id) REFERENCES members (id)
+   FOREIGN KEY (member_id) REFERENCES members (id),
+   FOREIGN KEY (ride_entry_id) REFERENCES ride_entries (id)
 );
 
-CREATE TABLE IF NOT EXISTS ride_child_entry (
+CREATE TABLE IF NOT EXISTS ride_member_entries (
+   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   ride_id INT NOT NULL,
+   member_id INT NOT NULL,
+   driver_id INT NOT NULL,
+   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   FOREIGN KEY (ride_id) REFERENCES rides (id),
+   FOREIGN KEY (member_id) REFERENCES members (id),
+   FOREIGN KEY (driver_id) REFERENCES drivers (id)
+);
+
+CREATE TABLE IF NOT EXISTS ride_child_entries (
    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
    ride_id INT NOT NULL,
    child_id INT NOT NULL,
-   ride_member_id INT NOT NULL,
+   driver_id INT NOT NULL,
    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    FOREIGN KEY (ride_id) REFERENCES rides (id),
    FOREIGN KEY (child_id) REFERENCES children (id),
-   FOREIGN KEY (ride_member_id) REFERENCES ride_member_entry (id)
+   FOREIGN KEY (driver_id) REFERENCES drivers (id)
 );

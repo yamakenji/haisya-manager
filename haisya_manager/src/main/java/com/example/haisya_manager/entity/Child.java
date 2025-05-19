@@ -1,6 +1,5 @@
 package com.example.haisya_manager.entity;
 
-
 import java.sql.Timestamp;
 import java.util.List;
 

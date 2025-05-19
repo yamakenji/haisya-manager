@@ -22,7 +22,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "rides")
 @Data
-@ToString(exclude = {"rideEntries", "rideMemberEntries", "rideChildEntries"})
+@ToString(exclude = {"rideEntries", "rideMemberEntries", "rideChildEntries", "drivers"})
 public class Ride {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,4 +56,7 @@ public class Ride {
 	
 	@OneToMany(mappedBy = "ride", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<RideChildEntry> rideChildEntries;
+	
+	@OneToMany(mappedBy = "ride", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	private List<Driver> drivers;
 }
