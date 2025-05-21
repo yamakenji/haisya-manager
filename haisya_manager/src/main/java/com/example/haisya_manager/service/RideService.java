@@ -13,15 +13,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.haisya_manager.entity.Child;
+import com.example.haisya_manager.entity.Driver;
 import com.example.haisya_manager.entity.Member;
 import com.example.haisya_manager.entity.Ride;
 import com.example.haisya_manager.entity.RideChildEntry;
 import com.example.haisya_manager.entity.RideEntry;
 import com.example.haisya_manager.entity.RideMemberEntry;
+import com.example.haisya_manager.form.DriverForm;
 import com.example.haisya_manager.form.RideEditForm;
-import com.example.haisya_manager.form.RideMemberEntryForm;
 import com.example.haisya_manager.form.RideRegisterForm;
 import com.example.haisya_manager.repository.ChildRepository;
+import com.example.haisya_manager.repository.DriverRepository;
 import com.example.haisya_manager.repository.MemberRepository;
 import com.example.haisya_manager.repository.RideChildEntryRepository;
 import com.example.haisya_manager.repository.RideEntryRepository;
@@ -40,6 +42,7 @@ public class RideService {
 	private final RideEntryRepository rideEntryRepository;
 	private final ChildRepository childRepository;
 	private final MemberRepository memberRepository;
+	private final DriverRepository driverRepository;
 	
 	// 	ログイン中のadminIdに紐づく配車状況日付が新しい順にページングされた状態で取得する
 	public Page<Ride> findRidesByAdminIdOrderByDateDesc(Integer adminId, Pageable pageable) {
@@ -56,9 +59,14 @@ public class RideService {
 		return rideRepository.findById(rideId);
 	}
 	
-	// 指定したride_idに紐づく配車指定をリストで取得する
+	// 指定したride_idに紐づく乗員する保護者をリストで取得する
 	public List<RideMemberEntry> findMemberIdsByRideId(Integer rideId) {
 		return rideMemberEntryRepository.findByRideId(rideId);
+	}
+	
+	// 指定したride_idに紐づく乗員する運転手をリストで取得する
+	public List<Driver> findDriversIdsByRideId(Integer rideId) {
+		return driverRepository.findByRideId(rideId);
 	}
 	
 	// 指定したride_idに紐づく乗員する子供をリストで取得する
@@ -69,6 +77,11 @@ public class RideService {
 	// 指定したride_idに紐づきtrueのみの保護者をリストで取得する
 	public List<RideEntry> findMemberIdsByRideIdAndCanDriveTrue(Integer rideId) {
 		return rideEntryRepository.findByRideIdAndCanDriveTrue(rideId);
+	}
+	
+	// admin_idに紐づく保護者をリストで取得する
+	public List<Member> findMemberIdsByAdminId(Integer adminId) {
+		return memberRepository.findByAdminId(adminId);
 	}
 	
 	// admin_idに紐づく子供をリストで取得する
@@ -158,7 +171,7 @@ public class RideService {
 		// 新しいエントリの作成
 		List<RideMemberEntry> newMemberEntries = new ArrayList<>();
 		
-		for (RideMemberEntryForm entryForm : rideEditForm.getRideMemberEntries()) {
+		for (DriverForm entryForm : rideEditForm.getRideMemberEntries()) {
 			if (entryForm.getMemberName() == null || entryForm.getMemberName().isBlank()) continue;
 			
 			Member member = memberRepository.findByName(entryForm.getMemberName());

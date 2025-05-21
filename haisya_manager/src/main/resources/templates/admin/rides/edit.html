@@ -33,25 +33,43 @@
             </div>
           </div>
 
-          <!-- 配車号 -->
+          <!-- 運転手 -->
           <div class="mb-3">
-            <label>配車号</label>
+            <label>運転手</label>
             <div class="row justify-content-between">
-              <div th:each="entry, iStat : *{rideMemberEntries}" class="col-md-2 mb-2">
-                <select th:field="*{rideMemberEntries[__${iStat.index}__].memberName}" class="form-select">
+              <div th:each="entry, iStat : *{drivers}" class="col-md-2 mb-2">
+                <select th:field="*{drivers[__${iStat.index}__].memberName}" class="form-select">
                   <option value=""></option>
-                  <option th:each="memberCanEntry : ${rideMemberCanEntries}"
-                          th:value="${memberCanEntry.member.name}"
-                          th:text="${memberCanEntry.member.name + '号'}"
-                          th:selected="${memberCanEntry.member.name == entry.memberName}">
+                  <option th:each="driver : ${rideMemberCanEntries}"
+                          th:value="${driver.member.name}"
+                          th:text="${driver.member.name + '号'}"
+                          th:selected="${driver.member.name == entry.memberName}">
                   </option>
                 </select>
               </div>
             </div>
           </div>
 
-          <!-- 子供 -->
+          <!-- 同乗する保護者 -->
+          <div class="mb-3"> 
+            <label>保護者</label>
+            <div class="row justify-content-between">
+              <div th:each="entry, iStat : *{rideMemberEntries}" class="col-md-2 mb-2">
+                <select th:field="*{rideMemberEntries[__${iStat.index}__].memberName}" class="form-select">
+                  <option value=""></option>
+                  <option th:each="member : ${memberList}"
+                          th:value="${member.name}"
+                          th:text="${member.name}"
+                          th:selected="${member.name == entry.memberName}">
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- 子供 
           <div class="mb-3">
+            <label>子供</label>
             <div class="row justify-content-between">
               <div th:each="entry, iStat : *{rideMemberEntries}" 
                   class="col-md-2 mb-2">
@@ -70,7 +88,7 @@
                   </div>
               </div>
             </div>
-          </div>
+          </div> -->
           
           <!-- 行き先 -->
           <div class="mb-3">

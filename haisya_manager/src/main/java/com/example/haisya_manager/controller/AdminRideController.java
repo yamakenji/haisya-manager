@@ -2,9 +2,7 @@ package com.example.haisya_manager.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -24,11 +22,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.haisya_manager.entity.Child;
+import com.example.haisya_manager.entity.Driver;
+import com.example.haisya_manager.entity.Member;
 import com.example.haisya_manager.entity.Ride;
 import com.example.haisya_manager.entity.RideChildEntry;
 import com.example.haisya_manager.entity.RideEntry;
 import com.example.haisya_manager.entity.RideMemberEntry;
+import com.example.haisya_manager.form.DriverForm;
 import com.example.haisya_manager.form.RideEditForm;
 import com.example.haisya_manager.form.RideMemberEntryForm;
 import com.example.haisya_manager.form.RideRegisterForm;
@@ -149,58 +149,64 @@ public class AdminRideController {
 		// 配車可能な保護者をリストで取得し、ビューに渡す。
 		List<RideEntry> rideMemberCanEntries = rideService.findMemberIdsByRideIdAndCanDriveTrue(rideId);
 		
-		// 実際に配車を行う保護者の名前をリストとして受け取り、ビューに渡す
+		// 実際に配車する運転手の名前をリストとして受け取り、ビューに渡す
+		List<Driver> drivers = rideService.findDriversIdsByRideId(rideId);
+		
+		// 実際に配車に乗員する保護者の名前をリストとして受け取り、ビューに渡す
 		List<RideMemberEntry> rideMemberEntries = rideService.findMemberIdsByRideId(rideId);
 		
 		// 実際に配車される車に乗る子供の名前をリストとして受け取り、ビューに渡す
-		List<RideChildEntry> rideChildEntries = rideService.findChildIdsByRideId(rideId);
+		//List<RideChildEntry> rideChildEntries = rideService.findChildIdsByRideId(rideId);
 		
 		Integer adminId = userDetailsImpl.getAdmin().getId();
 		
+		// admin_idに紐づく保護者をリストで取得する
+		List<Member> memberList = rideService.findMemberIdsByAdminId(adminId);
+		
 		// admin_idに紐づく子供をリストで取得する
-		List<Child> childrenList = rideService.findChildIdsByAdminId(adminId);
+		//List<Child> childrenList = rideService.findChildIdsByAdminId(adminId);
 		
 		Ride ride = optionalRide.get();
 		
-		// 保護者ごとに子供IDのリストをまとめる
-		Map<String, List<Integer>> memberNameToChildIds = new HashMap<>();
-		for (RideChildEntry entry : rideChildEntries) {
-	        String memberName = entry.getRideMemberEntry().getMember().getName();
-	        Integer childId = entry.getChild().getId();
+		RideEditForm rideEditForm = new RideEditForm();
 
-	        memberNameToChildIds
-	            .computeIfAbsent(memberName, k -> new ArrayList<>())
-	            .add(childId);
-	    }
-
-	    // RideMemberEntryForm を作成
-	    List<RideMemberEntryForm> rideMemberEntryForms = new ArrayList<>();
-	    for (RideMemberEntry rideMemberEntry : rideMemberEntries) {
-	        String memberName = rideMemberEntry.getMember().getName();
-	        List<Integer> childIds = memberNameToChildIds.getOrDefault(memberName, new ArrayList<>());
-
-	        RideMemberEntryForm entryForm = new RideMemberEntryForm();
-	        entryForm.setMemberName(memberName);
-	        entryForm.setChildIds(childIds);
-
-	        rideMemberEntryForms.add(entryForm);
+	    // ドライバーを作成
+	    List<DriverForm> driverForms = new ArrayList<>();
+	   for (Driver driver : drivers) {
+		   DriverForm driverForm = new DriverForm();
+		   driverForm.setMemberName(driver.getMember().getName());
+		   driverForms.add(driverForm);
+	   }
+	    while (driverForms.size() < 5) {
+	    	driverForms.add(new DriverForm());
 	    }
 		
-		RideEditForm rideEditForm = new RideEditForm();
+	    // 乗車する保護者を作成
+	    List<RideMemberEntryForm> rideMemberEntryForms = new ArrayList<>();
+	    for (RideMemberEntry rideMemberEntry : rideMemberEntries) {
+	    	RideMemberEntryForm rideMemberEntryForm = new RideMemberEntryForm();
+	    	rideMemberEntryForm.setMemberName(rideMemberEntry.getMember().getName());
+	    	rideMemberEntryForms.add(rideMemberEntryForm);
+	    }
+	    while (rideMemberEntryForms.size() < 5) {
+	    	rideMemberEntryForms.add(new RideMemberEntryForm());
+	    }
+	    
 		rideEditForm.setDate(ride.getDate());
 		rideEditForm.setDestination(ride.getDestination());
 		rideEditForm.setMemo(ride.getMemo());
+		rideEditForm.setDrivers(driverForms);
 		rideEditForm.setRideMemberEntries(rideMemberEntryForms);
 		
-		while (rideEditForm.getRideMemberEntries().size() < 5) {
-			rideEditForm.getRideMemberEntries().add(new RideMemberEntryForm());
-		}
+		//while (rideEditForm.getRideMemberEntries().size() < 5) {
+			//rideEditForm.getRideMemberEntries().add(new RideMemberEntryForm());
+		//}
 		
 		model.addAttribute("ride", ride);
-		model.addAttribute("rideMemberEntries", rideMemberEntries);
 		model.addAttribute("rideMemberCanEntries", rideMemberCanEntries);
-		model.addAttribute("rideChildEntries", rideChildEntries);
-		model.addAttribute("childrenList", childrenList);
+		model.addAttribute("memberList", memberList);
+		//model.addAttribute("rideChildEntries", rideChildEntries);
+		//model.addAttribute("childrenList", childrenList);
 		model.addAttribute("rideEditForm", rideEditForm);
 		
 		return "admin/rides/edit";

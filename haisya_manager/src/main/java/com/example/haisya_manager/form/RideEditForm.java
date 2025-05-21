@@ -22,5 +22,7 @@ public class RideEditForm {
 	
 	private String memo;
 
+	private List<DriverForm> drivers;
+	
 	private List<RideMemberEntryForm> rideMemberEntries;
 }
