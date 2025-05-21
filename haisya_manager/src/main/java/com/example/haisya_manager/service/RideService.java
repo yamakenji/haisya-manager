@@ -2,7 +2,6 @@ package com.example.haisya_manager.service;
 
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +20,7 @@ import com.example.haisya_manager.entity.RideEntry;
 import com.example.haisya_manager.entity.RideMemberEntry;
 import com.example.haisya_manager.form.DriverForm;
 import com.example.haisya_manager.form.RideEditForm;
+import com.example.haisya_manager.form.RideMemberEntryForm;
 import com.example.haisya_manager.form.RideRegisterForm;
 import com.example.haisya_manager.repository.ChildRepository;
 import com.example.haisya_manager.repository.DriverRepository;
@@ -102,7 +102,7 @@ public class RideService {
 		
 		rideRepository.save(ride);
 	}
-	/*
+	
 	// 配車登録した内容を更新する
 	@Transactional
 	public void updateRide(RideEditForm rideEditForm, Ride ride) {
@@ -114,22 +114,53 @@ public class RideService {
 		rideRepository.save(ride);
 	}
 	
-	// 配車号（保護者）を登録する
+	// 配車号（運転手）を登録する
 	@Transactional
-	public void createRideMember(RideEditForm rideEditForm, Ride ride) {
-		// RideEditFormで入力された保護者のidをループする
-		for (Integer memberId : rideEditForm.getMemberIds()) {
-			// RideMemberエンティティに登録していく
-			RideMemberEntry rideMemberEntry = new RideMemberEntry();
-			rideMemberEntry.setRide(ride);
-			// Memberを取得していく、オプショナルを求められるので、orElseThrowで無理やり取得
-			Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
-			rideMemberEntry.setMember(member);
-			rideMemberEntryRepository.save(rideMemberEntry);
+	public void createDriver(RideEditForm rideEditForm, Ride ride) {
+		driverRepository.deleteByRide(ride);
+		driverRepository.flush();
+		// RideEditFormで入力された運転手をループする
+		for (DriverForm driverForm : rideEditForm.getDrivers()) {
+			// 空欄ならスキップ
+			if (driverForm.getMemberName() == null || driverForm.getMemberName().isBlank())
+				continue;
+			
+			Member member = memberRepository.findByName(driverForm.getMemberName());
+			if (member == null) {
+				continue;
+			}
+			// Driverエンティティに登録していく
+			Driver driver = new Driver();
+			driver.setRide(ride);
+			driver.setMember(member);
+			driverRepository.save(driver);
 		}
 	}
+	
+	// 配車号（運転手）を登録する
+		@Transactional
+		public void createRideMemberEntry(RideEditForm rideEditForm, Ride ride) {
+			rideMemberEntryRepository.deleteByRide(ride);
+			rideMemberEntryRepository.flush();
+			// RideEditFormで入力された運転手をループする
+			for (RideMemberEntryForm rideMemberEntryForm : rideEditForm.getRideMemberEntries()) {
+				// 空欄ならスキップ
+				if (rideMemberEntryForm.getMemberName() == null || rideMemberEntryForm.getMemberName().isBlank())
+					continue;
+				
+				Member member = memberRepository.findByName(rideMemberEntryForm.getMemberName());
+				if (member == null) {
+					continue;
+				}
+				// Driverエンティティに登録していく
+				RideMemberEntry rideMemberEntry = new RideMemberEntry();
+				rideMemberEntry.setRide(ride);
+				rideMemberEntry.setMember(member);
+				rideMemberEntryRepository.save(rideMemberEntry);
+			}
+		}
 		
-	// 配車される車に乗車する子供を登録する
+	/* 配車される車に乗車する保護者を登録する
 	@Transactional
 	public void createRideChild(RideEditForm rideEditForm, Ride ride) {
 		// RideChildFormで入力された子供の数だけのループさせる
@@ -149,7 +180,7 @@ public class RideService {
 		}
 	}*/
 	
-	// 配車号、乗車する子供を一掃してから編集登録する
+	/* 配車号、乗車する子供を一掃してから編集登録する
 	@Transactional
 	public void updateAllRide(RideEditForm rideEditForm, Ride ride) {
 		ride.setDate(rideEditForm.getDate());
@@ -200,7 +231,7 @@ public class RideService {
 			}
 			newMemberEntries.add(rideMemberEntry);
 		}
-	}
+	}*/
 	
 	// 配車を削除する
 	@Transactional

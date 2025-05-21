@@ -234,7 +234,8 @@ public class AdminRideController {
 			model.addAttribute("rideEditForm", rideEditForm);
 			return "admin/rides/edit";
 		}
-		rideService.updateAllRide(rideEditForm, ride);
+		rideService.createDriver(rideEditForm, ride);
+		rideService.createRideMemberEntry(rideEditForm, ride);
 		redirectAttributes.addFlashAttribute("successMessage", "配車予定を編集しました。");
 		return "redirect:/admin/rides/{rideId}";
 	}

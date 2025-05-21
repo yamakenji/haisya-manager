@@ -30,10 +30,6 @@ public class RideMemberEntry {
 	@JoinColumn(name = "member_id")
 	private Member member;
 	
-	@ManyToOne
-	@JoinColumn(name = "driver_id")
-	private Driver driver;
-	
 	@Column(name = "created_at", insertable = false, updatable = false)
 	private Timestamp createdAt;
 	 
